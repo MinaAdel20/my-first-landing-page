@@ -129,8 +129,7 @@ backgrounds.forEach((Element) => {
   Element.addEventListener("click", (e) => {
     landing.style.backgroundImage = `url(${e.target.dataset.url}) `;
     localStorage.setItem("background-option", e.target.dataset.url);
-    console.log( e.target.dataset.url);
-
+    console.log(e.target.dataset.url);
   });
 });
 // end randomBackground
@@ -158,3 +157,40 @@ window.onscroll = () => {
 };
 
 // end skills
+
+// start gallery
+let gallery = document.querySelector(".gallery");
+let galleryImg = document.querySelectorAll(".gallery img");
+galleryImg.forEach((img) => {
+  img.addEventListener("click", (e) => {
+    let galleryOverlay = document.createElement("div");
+    galleryOverlay.classList.add("gallery-overlay");
+    document.body.appendChild(galleryOverlay);
+    let popupBox = document.createElement("div");
+    popupBox.className = "popup-box";
+    if (img.alt !== null) {
+      let popupHeading = document.createElement("h3");
+      let headingText = document.createTextNode(img.alt);
+      popupHeading.appendChild(headingText);
+      popupBox.appendChild(popupHeading);
+    }
+    let popupImg = document.createElement("img");
+
+    popupImg.src = e.target.src;
+    popupBox.appendChild(popupImg);
+    document.body.appendChild(popupBox);
+
+    let closeButton = document.createElement("span");
+    let closeText = document.createTextNode("X");
+    closeButton.appendChild(closeText);
+    closeButton.classList.add("close-button");
+    popupBox.append(closeButton);
+  });
+});
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("close-button")) {
+    e.target.parentElement.remove();
+    document.querySelector(".gallery-overlay").remove();
+  }
+});
+// end gallery
